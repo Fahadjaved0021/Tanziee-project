@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import React from 'react'
 import './App.css'
 import Die from './Component/Die'
@@ -6,10 +6,24 @@ import {nanoid} from 'nanoid'
 
 function App() {
 
-
-
   const [dice, setDice] = useState(allNewArray())
 
+  const [tenzies, setTenzies] = useState(false)
+    
+  useEffect(() => {
+      console.log("Dice state changed")
+
+    const allHeld = dice.every(die => die.isHeld )
+    const firstValue = dice[0].value
+    const allSameValue = dice.every(die=>die.value === firstValue)
+
+    if (allHeld && allSameValue) {
+      setTenzies(true)
+      console.log("you won")
+
+    }
+
+  }, [dice])
   
 
   function allNewArray () {
